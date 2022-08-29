@@ -10,21 +10,33 @@ console.log('debug info', {
   canvas: !!canvas,
 });
 
-module.exports.hello = async () => Promise.resolve({
-  status: 200,
-  body: {
-    message: 'Hello, World!',
-    cairoVersion: cairoVersion(),
-  },
-});
+module.exports.hello = async () => {
+  await sleep(5000);
+  return await Promise.resolve({
+    status: 200,
+    body: {
+      message: 'Hello, World!',
+      cairoVersion: cairoVersion(),
+    },
+  });
+};
 
-module.exports.time = async () => Promise.resolve({
-  status: 200,
-  body: {
-    time: new Date(),
-    cairoVersion: cairoVersion(),
-  },
-});
+module.exports.time = async () => {
+  await sleep(5000);
+  return await Promise.resolve({
+    status: 200,
+    body: {
+      time: new Date(),
+      cairoVersion: cairoVersion(),
+    },
+  });
+};
+
+function sleep(ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve(), ms);
+  });
+}
 
 function cairoVersion() {
   return canvas ? canvas.cairoVersion : 'no canvas';
