@@ -28,6 +28,8 @@ provider:
   stage: dev
   httpApi:
     cors: false
+  environment:
+    LD_PRELOAD: /var/task/node_modules/canvas/build/Release/libz.so.1
 functions:
   hello:
     handler: index.hello

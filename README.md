@@ -60,3 +60,14 @@ https://github.com/josdejong/workerpool/issues/165
 ## Prerequisites for deploy on AWS Lambda:
 1. Deploy the layer from here: https://serverlessrepo.aws.amazon.com/applications/arn:aws:serverlessrepo:us-east-1:990551184979:applications~lambda-layer-canvas-nodejs
 2. Copy the Version ARN into serverless.yml
+
+## Issues 
+### /lib64/libz.so.1: version `ZLIB_1.2.9' not found (required by /var/task/node_modules/canvas/build/Release/libpng16.so.16)
+https://github.com/Automattic/node-canvas/issues/1779
+#### Workaround:
+```yml
+provider:
+  ...
+  environment:
+    LD_PRELOAD: /var/task/node_modules/canvas/build/Release/libz.so.1
+```
