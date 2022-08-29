@@ -1,0 +1,45 @@
+service: sls-off-mdnsr
+frameworkVersion: '3'
+provider:
+  name: aws
+  runtime: nodejs16.x
+  layers:
+    # https://serverlessrepo.aws.amazon.com/applications/arn:aws:serverlessrepo:us-east-1:990551184979:applications~lambda-layer-canvas-nodejs
+    # [
+    # Member must have length less than or equal to 140, 
+    # Member must have length greater than or equal to 1, 
+    # Member must satisfy regular expression pattern: 
+    #  (arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-]+:[0-9]+)
+    #  |
+    #  (arn:[a-zA-Z0-9-]+:lambda:::awslayer:[a-zA-Z0-9-]+)
+    # ]
+    # - arn:aws:lambda:region:XXXXXX:layer:LayerName:Y
+    # Does not work:
+    # - arn:aws:serverlessrepo:us-east-1:990551184979:applications/lambda-layer-canvas-nodejs
+    # Does not work:
+    # - arn:aws:lambda:us-east-1:990551184979:layer:lambda-layer-canvas-nodejs
+    # Does not work: Resource handler returned message: "arn:aws:lambda:::awslayer:lambda-layer-canvas-nodejs is not a valid execution environment (Service: Lambda, Status Code: 400, Request ID: fbf70638-c282-4159-b9d3-7dd1bd694b67)" (RequestToken: 35a54a2b-56fa-b786-97f0-5eb1bdac81b4, HandlerErrorCode: InvalidRequest)
+    # - arn:aws:lambda:::awslayer:lambda-layer-canvas-nodejs
+    # Does not work: Resource handler returned message: "arn:aws:lambda:::awslayer:canvas-nodejs is not a valid execution environment (Service: Lambda, Status Code: 400, Request ID: e7061e35-7c9e-42ba-83c8-e5afa314d3d7)" (RequestToken: fd395bb4-173b-3203-6772-d97a5fbe13f3, HandlerErrorCode: InvalidRequest)
+    # - arn:aws:lambda:::awslayer:canvas-nodejs
+    # Works! :)
+    - arn:aws:lambda:us-east-1:684482388085:layer:canvas-nodejs:3
+  memorySize: 128
+  stage: dev
+  httpApi:
+    cors: false
+functions:
+  hello:
+    handler: index.hello
+    events:
+      - httpApi:
+          path: /hello
+          method: GET
+  time:
+    handler: index.time
+    events:
+      - httpApi:
+          path: /time
+          method: GET
+plugins:
+  - serverless-offline

@@ -1,0 +1,6 @@
+[*]
+indent_style = space
+indent_size = 2
+
+[*.{js,ts}]
+quote_type = single
