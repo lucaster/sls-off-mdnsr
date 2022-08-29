@@ -1,5 +1,10 @@
 # Minimal project to recreate the issue "Module did not self-register"
 
+## Deploy
+```
+sls deploy --aws-profile xxxxxxxx --param="ACCOUNT_ID=xxxxxxxxxxxx"
+```
+
 ## To reproduce:
 ```
 npm ci

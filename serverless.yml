@@ -9,7 +9,7 @@ provider:
     cors: false
   layers:
     # Gotta Deploy via AWS Console first, when copy the Version ARN into here:
-    - arn:aws:lambda:us-east-1:684482388085:layer:canvas-nodejs:3
+    - arn:aws:lambda:${aws:region}:${param:ACCOUNT_ID}:layer:canvas-nodejs:3
   environment:
     LD_PRELOAD: /var/task/node_modules/canvas/build/Release/libz.so.1
 functions:
